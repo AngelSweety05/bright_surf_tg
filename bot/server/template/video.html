@@ -195,21 +195,27 @@
                 console.error('Failed to copy URL: ', error);
             });
     }
-    function updateVideoSource() {
-        const videoElement = document.getElementById('player');
-        const newSrc = downloadlink;
-        videoElement.src = newSrc;
-    }
+    // function updateVideoSource() {
+    //     const videoElement = document.getElementById('player');
+    //     const newSrc = downloadlink;
+    //     videoElement.src = newSrc;
+    // }
     // window.onload = function () {
     //     updateVideoSource();
     // };
 
-     var player = new Playerjs({
-        id: "player",
-        file: updateVideoSource(),
-      });
     
+    const newSrc = downloadlink;
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      var player = new Playerjs({
+        id: "player",
+        file: newSrc,
+      });
+    });
+
 </script>
+
 
 <!--   <script>
     // arey ise toh rehne de kam se kam ! bsdk
