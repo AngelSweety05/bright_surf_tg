@@ -114,7 +114,14 @@
             <p class="card-text">Size: <!-- Size --></p>
         </div>
     </div>
-
+    <div class="container d-flex justify-content-center align-items-center" style="width: 100%; padding: 0 5px;">
+        <div onclick="mx_player()" class="btn btn-primary">MX Player</div>
+        <div onclick="vlc_player()" class="btn btn-primary">VLC Mobile</div>
+        <div onclick="km_player()" class="btn btn-primary">KM Player</div>
+        <div onclick="get_file()" class="btn btn-primary">Get File</div>
+        <div onclick="copyUrl()" class="btn btn-primary">Copy Url</div>
+        <div onclick="download()" class="btn btn-primary">Download</div>
+    </div>
     <footer class="footer mt-auto py-3 text-muted text-center" style="color: white;">
         <div class="container d-flex justify-content-center align-items-center" style="width: 100%; padding: 0 10px;">
             <p class="float-end">
@@ -139,6 +146,75 @@
       });
     });
   </script>
+
+<script>
+    const videolink = window.location.href;
+    const url = new URL(videolink);
+    const domainUrl = url.origin;
+    const videoIdWithParams = videolink.split('/').pop();
+    const videoId = videoIdWithParams.split('?')[0];
+    const idParam = new URLSearchParams(window.location.search).get('id');
+    const hashParam = new URLSearchParams(window.location.search).get('hash');
+    const encodedName = encodeURIComponent('<!-- Filename -->');
+
+    const downloadlink = `${domainUrl}/${videoId}/${encodedName}?id=${idParam}&hash=${hashParam}`;
+
+    // const player = new Plyr('#player', {
+    //     controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen', 'pip', 'airplay', 'settings', "play-large", 'duration'],
+    //     hideControls: false,
+    //     keyboard: { focused: true, global: true },
+    //     loop: { active: false },
+    // });
+    function mx_player() {
+        const openDownloadLink = downloadlink;
+        const openMx = `intent:${openDownloadLink}#Intent;package=com.mxtech.videoplayer.ad;end`;
+        window.location.href = openMx;
+    }
+
+    function vlc_player() {
+        const openDownloadLink = downloadlink;
+        const openVlc = `vlc://${openDownloadLink}`;
+        window.location.href = openVlc;
+    }
+    function km_player() {
+        const openDownloadLink = downloadlink;
+        const openKmplayer = `intent:${openDownloadLink}#Intent;package=com.kmplayer;end`;
+        window.location.href = openKmplayer;
+    }
+    function download() {
+        const openDownloadLink = downloadlink;
+        window.location.href = openDownloadLink;
+    }
+    function get_file() {
+        const regex = /(\d+)\?id=(\d+)&/;
+        const match = videolink.match(regex);
+        if (match) {
+            const chatId = "-100" + match[1];
+            const messageId = match[2];
+            const openTG = `https://t.me/<!-- Username -->?start=file_${messageId}${chatId}`;
+            window.location.href = openTG;
+        }
+    }
+    function copyUrl() {
+        const url = downloadlink;
+        navigator.clipboard.writeText(url)
+            .then(() => {
+                alert('URL copied to clipboard!');
+            })
+            .catch((error) => {
+                console.error('Failed to copy URL: ', error);
+            });
+    }
+    // function updateVideoSource() {
+    //     const videoElement = document.getElementById('player');
+    //     const newSrc = downloadlink;
+    //     videoElement.src = newSrc;
+    // }
+    // window.onload = function () {
+    //     updateVideoSource();
+    // };
+</script>
+
   <script>
     //	Playerjs.com 20.0.4
     //	19.12.2024 11:13:38
