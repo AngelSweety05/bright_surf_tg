@@ -137,11 +137,23 @@
 </body>
 
   <script>
+
     // arey ise toh rehne de kam se kam ! bsdk
     document.addEventListener("DOMContentLoaded", () => {
+        const l_videolink = window.location.href;
+        const l_url = new URL(videolink);
+        const l_domainUrl = url.origin;
+        const l_videoIdWithParams = videolink.split('/').pop();
+        const l_videoId = videoIdWithParams.split('?')[0];
+        const l_idParam = new URLSearchParams(window.location.search).get('id');
+        const l_hashParam = new URLSearchParams(window.location.search).get('hash');
+        const l_encodedName = encodeURIComponent('<!-- Filename -->');
+
+        const l_downloadlink = `${l_domainUrl}/${l_videoId}/${l_encodedName}?id=${l_idParam}&hash=${l_hashParam}`;
+
       var player = new Playerjs({
         id: "player",
-        file: window.location.href
+        file: l_downloadlink
       });
     });
   </script>
